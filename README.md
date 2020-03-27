@@ -1,23 +1,23 @@
 # Optimization-Algorithms       
 This repository contains code for various optimization algorithms as follows to minimize the function <br> "(x<sub>2</sub>-x<sub>1</sub>)<sup>4</sup> + 12x<sub>1</sub>x<sub>2</sub> - x<sub>1</sub> + x<sub>2</sub> - 3" :
 <hr>
--> Genetic Algorithms
+Genetic Algorithms
 <hr>
--> Particle Swarm Optimization
+Particle Swarm Optimization
 <hr>
--> Gradient Descent
+Gradient Descent
 <hr>
--> Newton's Method
+Newton's Method
 <hr>
--> Steepest Descent 
+Steepest Descent 
 <hr>
--> Conjugate Gradient
+Conjugate Gradient
 <hr>
--> DFP
+DFP
 <hr>
--> Rank One Algorithm
+Rank One Algorithm
 <hr>
--> BFGS
+BFGS
 <hr>
--> Line Search Algorithms
+Line Search Algorithms
 <hr>
