@@ -1,5 +1,5 @@
 # Optimization-Algorithms       
-This repository contains code for various optimization algorithms as follows to minimize the function <br> "(x<sub>2</sub>-x<sub>1</sub>)<sup>4</sup> + 12x<sub>1</sub>x<sub>2</sub> - x<sub>1</sub> + x<sub>2</sub> - 3" :
+This repository contains code for various optimization algorithms to minimize the function <br> "(x<sub>2</sub>-x<sub>1</sub>)<sup>4</sup> + 12x<sub>1</sub>x<sub>2</sub> - x<sub>1</sub> + x<sub>2</sub> - 3" :
 <hr>
 Genetic Algorithms
 <hr>
