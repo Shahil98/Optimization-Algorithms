@@ -14,4 +14,5 @@ This repository contains code for various optimization algorithms to minimize th
 ![alt text](https://github.com/Shahil98/Optimization-Algorithms/blob/master/DFP/DFP1.png?raw=true)
 ![alt text](https://github.com/Shahil98/Optimization-Algorithms/blob/master/DFP/DFP2.png?raw=true)
 ## BFGS
-
+![alt text](https://github.com/Shahil98/Optimization-Algorithms/blob/master/BFGS/BFGS1.png?raw=true)
+![alt text](https://github.com/Shahil98/Optimization-Algorithms/blob/master/BFGS/BFGS2.png?raw=true)
