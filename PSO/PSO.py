@@ -1,14 +1,23 @@
+"""
+Importing necessary libraries.
+"""
 import numpy as np
 import matplotlib.pyplot as plt
 
-
+"""
+Class to represent a function to be minimized.
+"""
 class function:
-
     def func(x):
         return((x[1][0]-x[0][0])**4 + 12*x[0][0]*x[1][0] - x[0][0] + x[1][0] - 3)
 
+"""
+FOllowing class represnts a particle in population.
+"""
 class particle(function):
-
+    """
+    Following function initializes a particle's parameters.
+    """
     def __init__(self):
         self.x = np.random.rand(2,1)
         self.v = np.random.rand(2,1)
@@ -17,10 +26,11 @@ class particle(function):
         self.x_arr.append(self.x)
         self.level_set = []
         self.level_set.append(function.func(self.x))
-    
-
+   
 class PSO(function):
-
+    """
+    Following function initializes the swarm based on provided parameters.
+    """
     def __init__(self,epochs,d,w,c1,c2):
         self.swarm = []
         self.best = []
@@ -41,12 +51,14 @@ class PSO(function):
             elif(function.func(self.g)>function.func(self.swarm[i].x)):
                 self.g = self.swarm[i].x
     
+    """
+    Following function generates a new swarm for each iteration and essentially minimizes the function.
+    """
     def minimize(self):
         for i in range(self.epochs):
             for j in range(self.d):
                 r = np.random.uniform(0.01,1,(2,1))
                 s = np.subtract(np.ones((2,1)),r)
-                #s = np.random.uniform(0.01,1,(2,1))
                 self.swarm[j].v = np.add(np.add(np.multiply(self.w,self.swarm[j].v) , np.multiply(self.c1,np.multiply(r,np.subtract(self.swarm[j].p,self.swarm[j].x)))),np.multiply(self.c2,np.multiply(s,np.subtract(self.g,self.swarm[j].x))))
                 self.swarm[j].x = self.swarm[j].x + self.swarm[j].v
                 self.swarm[j].x_arr.append(self.swarm[j].x)
@@ -70,10 +82,15 @@ class PSO(function):
             self.worst.append(worst_curr)
         print("minimum value : ",function.func(self.g),"minimizer point:",self.g)
                 
-    
+    """
+    Following function is used to generate a list of function values from given list x2 and x1.  
+    """
     def fx_contour(self,x1,x2):
         return np.power(x2-x1,4)+(12*x1*x2)-x1+x2-3
-     
+    
+    """
+    Following function is used plot a contour plot and the plot of best, average and worst function values for each iteration.
+    """
     def plot(self):
         X = np.linspace(-1,1,50)
         Y = np.linspace(-1,1,50)
@@ -95,13 +112,23 @@ class PSO(function):
             X.append(i+1)
         plt.plot(X,self.best,color='green')
         plt.scatter(X,self.best,color='green')
-        #plt.show()
         plt.plot(X,self.average,color='blue')
         plt.scatter(X,self.average,color='blue')
-        #plt.show()
         plt.plot(X,self.worst,color='red')
         plt.scatter(X,self.worst,color='red')
+        plt.ylabel("Function value")
+        plt.xlabel("Iteration")
+        plt.title("Best, average and worst function value at each iteration")
         plt.show()
-pso = PSO(20,14,0.8,1.8,1.8)
+
+"""
+Following piece of code initializes a PSO object, calls minimize function and plots final graphs.
+"""
+num_of_particles = 14
+num_of_iterations = 20
+particle_best_weight = 1.8
+global_best_weight = 1.8
+particle_previous_influence_weight = 0.8
+pso = PSO(num_of_iterations,num_of_particles,particle_previous_influence_weight,particle_best_weight,global_best_weight)
 pso.minimize()
 pso.plot()

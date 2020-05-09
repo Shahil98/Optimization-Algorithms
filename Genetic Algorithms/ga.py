@@ -1,9 +1,19 @@
+"""
+Importing necessRY LIBRARIES.
+"""
 import numpy as np
 import random
 import matplotlib.pyplot as plt
+
+"""
+Following function is the function to be minimized.
+"""
 def func(x1,x2):
     return((x2-x1)**4 + 12*x1*x2 + x2 - x1 - 3)
 
+"""
+Following class is to define a chromosome/node.
+"""
 class Node():
     def __init__(self):
         self.X = np.random.uniform(low = -1, high = 1, size = (2,1))
@@ -12,8 +22,12 @@ class Node():
         self.fitness = None
 
 class GA():
-
+    """
+    Following function initializes population for the first generation.
+    """
     def __init__(self,epochs,pop_num):
+        if(int(pop_num/2)%2 != 0):
+            pop_num += 2
         self.f_max = None
         self.population = []
         for i in range(pop_num):
@@ -23,16 +37,25 @@ class GA():
         self.worst = []
         self.average = []
     
+    """
+    Following function calculates the maximum f_value i.e. function value among all the nodes/chromosomes in the population.
+    """
     def cal_f_max(self):
         self.f_max = self.population[0].f_val
         for i in range(1,len(self.population)):
             if(self.f_max<self.population[i].f_val):
                 self.f_max = self.population[i].f_val
-
+    
+    """
+    Foolowing function calculates the fitness value for each node/chromosome.
+    """
     def cal_fitness(self):
         for i in range(len(self.population)):
-            self.population[i].fitness = self.f_max - self.population[i].f_val
+            self.population[i].fitness = round(self.f_max - self.population[i].f_val,4)
     
+    """
+    Following function is used to calculate a binary representation of x and y coordinates for each node/chromosome.
+    """
     def cal_X_bin(self):
         for i in range(len(self.population)):
             x1 = self.population[i].X[0][0] 
@@ -50,9 +73,10 @@ class GA():
                 x2_bin = x2_bin[0:j] + "0" + x2_bin[j+1:]
                 j = j+1
             self.population[i].X_bin = x1_bin + x2_bin
-            #print(self.population[i].X_bin)
 
-    
+    """
+    Following function is used to convert a binary representation into x and y coordinates.
+    """
     def cal_int(self,x_bin):
         x1 = x_bin[:11]
         x2 = x_bin[11:]
@@ -63,14 +87,20 @@ class GA():
         x2 = x2/1000
         x2 = x2 - 1
         return(x1,x2)
-
+    
+    """
+    Following function is used to select candidates such that nodes/chromosomes having high fitness have higher probability of getting selected. For this roullete selection technique is applied.
+    """
     def roullete_selection(self):
         l = len(self.population)/2
         for i in range(int(l)):
             sum = 0
             for j in range(len(self.population)):
-                sum = sum + self.population[j].fitness
-            rand_num = np.random.randint(0,sum)
+                sum = round(sum + self.population[j].fitness,4)
+            if(sum < 1):
+                rand_num = 0
+            else:
+                rand_num = np.random.randint(0,int(sum))
             k = 0
             sum = 0
             while(sum<rand_num):
@@ -81,6 +111,9 @@ class GA():
             else:
                 self.M.append(self.population.pop(k-1))
 
+    """
+    Following function is used to perform cross-over between the candidates generated.
+    """
     def cross_over(self):
         M_new = []
         while(len(self.M) != 0):
@@ -109,6 +142,9 @@ class GA():
             M_new.append(of_node_2)
         return(M_new)
     
+    """
+    Following function is used to perform a random mutation for each node/crossover present in the population list.
+    """
     def mutate(self):
         for i in range(len(self.population)):
             for j in range(22):
@@ -120,6 +156,10 @@ class GA():
                         self.population[i].X_bin= self.population[i].X_bin[0:j] + "0" + self.population[i].X_bin[j+1:]
             self.population[i].X[0][0],self.population[i].X[1][0] = self.cal_int(self.population[i].X_bin)
             self.population[i].f_val = func(self.population[i].X[0][0],self.population[i].X[1][0])
+    
+    """
+    Following function is used to minimize the given function.
+    """
     def minimize(self):
         for i in range(self.epochs):
             self.cal_f_max()
@@ -149,20 +189,29 @@ class GA():
                 min_point = self.population[i].X
         print("Minimum objective value : ",min,"Minimizer point : ",min_point)
 
+    """
+    Following function is used to plot the best, average and worst function values in each generation.
+    """
     def graph_plot(self):
         X = []
         for i in range(self.epochs):
             X.append(i+1)
         plt.plot(X,self.best,color='green')
         plt.scatter(X,self.best,color='green')
-        #plt.show()
         plt.plot(X,self.average,color='blue')
         plt.scatter(X,self.average,color='blue')
-        #plt.show()
         plt.plot(X,self.worst,color='red')
         plt.scatter(X,self.worst,color='red')
+        plt.xlabel('Generation')
+        plt.ylabel('Function value')
+        plt.title('Best, average and worst function values in each generation')
         plt.show()
-g = GA(250,12)
+
+"""
+Following piece of code initializes a GA object, minimizes the function based on passed parameters during initialization and than plots a graph for the best, average and worst function values in each generation.
+"""
+poulation_size = 50
+Generations = 50
+g = GA(Generations,poulation_size)
 g.minimize()
 g.graph_plot()
-

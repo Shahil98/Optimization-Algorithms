@@ -1,8 +1,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-class r_one():
-
+class bfgs():
+    """
+    Following function initializes the required variables and lists.
+    """
     def __init__(self,X):
         self.H = np.ones((2,2))
         self.H[1][0] = 0
@@ -14,15 +16,29 @@ class r_one():
         self.X_arr = []
         self.level_sets = []    
 
+    """
+    Following function returns the function value at a point.
+    """
     def fx(self,x1,x2):
         return ((x2-x1)**4 + 12*x2*x1 - x1 + x2 -3)
 
+    """
+    Following function is used to calculate function value at updated x1 and x2 values obtained using a and d values. 
+    """
     def alpha_func(self,a):
         x1 = self.X[0][0] + self.d[0][0]*a
         x2 = self.X[1][0] + self.d[1][0]*a
         return (self.fx(x1,x2))
+    
+    """
+    Following function returns function values at all specified values in list x1 and x2.
+    """
     def fx_return(self,x1,x2):
         return np.power(x2-x1,4)+(12*x1*x2)-x1+x2-3
+    
+    """
+    Following function is used to perform an alpha search.
+    """
     def search_alpha(self):
         epsilon = 0.05
         a = 0
@@ -54,6 +70,10 @@ class r_one():
                 s = t
                 t = a + (b-a)*(0.618)
         return (a+b)/2
+    
+    """
+    Following function is used to minimize the given function.
+    """
     def minimize(self):
 
         count = 0
@@ -93,7 +113,10 @@ class r_one():
             count = count + 1
         print(self.X_arr)
         print(self.level_sets)
-
+    
+    """
+    Following function is used to plot contour plots. 
+    """
     def plot_graph(self):
         x1 = []
         x2 = []
@@ -108,18 +131,22 @@ class r_one():
         plt.contour(X,Y,Z,colors='black')
         plt.plot(x1,x2,color='blue')
         plt.scatter(x1,x2,color='red')
+        plt.title("Contour plot for start point : ("+str(self.X_arr[0][0][0])+","+str(self.X_arr[0][1][0]) + ")")
         plt.show()
 
+"""
+Following piece of code initializes starting points, DFP objects and than minimizes the function and plots contour graphs.
+"""
 X1 = np.ones((2,1))
 X1[0][0] = 0.55
 X1[1][0] = 0.7
-obj1 = r_one(X1)
+obj1 = bfgs(X1)
 obj1.minimize()
 obj1.plot_graph()
 
 X2 = np.ones((2,1))
 X2[0][0] = -0.9
 X2[1][0] = -0.5
-obj2 = r_one(X2)
+obj2 = bfgs(X2)
 obj2.minimize()
 obj2.plot_graph()
